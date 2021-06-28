@@ -1,0 +1,32 @@
+{
+  "name": "storage",
+  "version": "1.0.0",
+  "description": "Vaccine storage management.",
+  "main": "src/index.js",
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
+    "start:prod": "cross-env NODE_ENV=prod node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitorMartin/vaccine-storage.git"
+  },
+  "keywords": [
+    "vaccine",
+    "storage"
+  ],
+  "author": "Vitor Martin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VitorMartin/vaccine-storage/issues"
+  },
+  "homepage": "https://github.com/VitorMartin/vaccine-storage#readme",
+  "dependencies": {
+    "config": "^3.3.6",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.7"
+  }
+}

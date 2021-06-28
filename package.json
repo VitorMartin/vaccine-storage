@@ -7,7 +7,7 @@
     "test": "jest --watchAll --verbose --coverage",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.ts",
     "start:prod": "rmdir \"./dist\" /s /q && mkdir dist && tsc --project . && cross-env NODE_ENV=prod node ./dist/index.js",
-    "build": "rmdir \"./dist\" /s /q && mkdir dist && tsc --project ."
+    "build": "(if exist \"./dist\" rmdir \"./dist\" /s /q) && mkdir dist && tsc --project ."
   },
   "repository": {
     "type": "git",

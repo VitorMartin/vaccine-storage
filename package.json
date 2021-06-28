@@ -4,6 +4,7 @@
   "description": "Vaccine storage management.",
   "main": "src/index.js",
   "scripts": {
+    "test": "jest --watchAll --verbose --coverage",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
     "start:prod": "cross-env NODE_ENV=prod node ./src/index.js"
   },
@@ -22,11 +23,14 @@
   },
   "homepage": "https://github.com/VitorMartin/vaccine-storage#readme",
   "dependencies": {
+    "axios": "^0.21.1",
     "config": "^3.3.6",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "cross-env": "^7.0.3",
+    "jest": "^27.0.5",
     "nodemon": "^2.0.7"
   }
 }

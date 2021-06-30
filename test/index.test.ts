@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import config from 'config';
 const appConfig : any = config.get('appConfig')
-const url = `${appConfig.protocol}://${appConfig.host}:${appConfig.port}`
+const url = `${appConfig.protocol}://${appConfig.host}:${appConfig.port}/${appConfig.name}`
 
 describe(`Endpoints working: ${appConfig.name}`, () => {
     test('ping ==> server is listenning', async () => {

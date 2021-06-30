@@ -1,14 +1,14 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 const app : Application = express()
-app.use(express.json())
 
 import config from 'config';
 const appConfig : any = config.get('appConfig')
 
-app.get('/ping', (req : Request, res : Response) => {
-    console.log(appConfig);
-    res.send(appConfig)
-})
+import router from "./routers/routes";
+
+app.use(express.json())
+
+app.use(`/${appConfig.name}`, router)
 
 app.listen(appConfig.port, () => {
     console.log(`MSS ${appConfig.name} is running:`);

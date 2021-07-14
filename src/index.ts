@@ -1,16 +1,16 @@
-import express, { Application } from 'express';
-const app : Application = express()
+import { app } from "./app";
 
 import config from 'config';
 const appConfig : any = config.get('appConfig')
 
-import router from "./routers/routes";
+const main = async () => {
+    const port = appConfig.port || 8080
 
-app.use(express.json())
+    app.listen(port, () => {
+        console.log(`MSS ${appConfig.name} is running:`);
+        console.log(appConfig)
+    });
 
-app.use(`/${appConfig.name}`, router)
+}
 
-app.listen(appConfig.port, () => {
-    console.log(`MSS ${appConfig.name} is running:`);
-    console.log(appConfig)
-});
+main()

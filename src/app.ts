@@ -9,3 +9,7 @@ import router from "./routers/routes";
 app.use(express.json())
 
 app.use(`/${appConfig.name}`, router)
+
+app.get('/', (req, res) => {
+    res.status(200).send(appConfig)
+})

@@ -4,7 +4,7 @@
   "description": "Vaccine storage management.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --verbose --watchAll",
     "test:complete": "jest --verbose --collectCoverage=true --no-cache",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.ts",
     "start:prod": "rmdir \"./dist\" /s /q && mkdir dist && tsc --project . && cross-env NODE_ENV=prod node ./dist/index.js",

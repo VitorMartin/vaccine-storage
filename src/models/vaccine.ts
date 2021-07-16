@@ -1,7 +1,6 @@
-import { v4 as uuidv4 } from 'uuid'
+import { ItemModel } from './item';
 
-export class VaccineModel {
-    uuid : string;
+export class VaccineModel extends ItemModel {
     brand : string;
     name : string;
     mfr : string; // Manufacturer
@@ -10,7 +9,7 @@ export class VaccineModel {
     dueDate : Date;
 
     constructor(brand : string, name : string, mfr : string, qty : number, fabDate : Date, dueDate : Date) {
-        this.uuid = uuidv4()
+        super();
         this.brand = brand
         this.name = name
         this.mfr = mfr

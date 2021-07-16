@@ -7,7 +7,6 @@ describe('Models ==> vaccine', () => {
         const dueDate = new Date(fabDate.getFullYear(), fabDate.getMonth() + 12, fabDate.getDate())
         const vaccine = new VaccineModel(brand.SINOVAC, name.BUTANVAC, mfr.BUTANTAN, 12, fabDate, dueDate)
         
-        expect(typeof vaccine.uuid).toBe('string')
         expect(vaccine.brand).toBe(brand.SINOVAC)
         expect(vaccine.name).toBe(name.BUTANVAC)
         expect(vaccine.mfr).toBe(mfr.BUTANTAN)

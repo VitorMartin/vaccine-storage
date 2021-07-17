@@ -1,5 +1,5 @@
 import { ItemModel } from "../../../models/item_model";
-import { IStorage } from "../../../usecases/repositories/storage_interface";
+import { IStorage } from "../../../usecases/db/storage_interface";
 
 export class StorageVolatile implements IStorage {
     data: ItemModel[]

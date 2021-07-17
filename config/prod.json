@@ -4,6 +4,6 @@
         "protocol": "http",
         "host": "0.0.0.0",
         "port": 1000,
-        "basePath": "/storage/v1"
+        "apiVersion": "v1"
     }
 }

@@ -1,5 +1,6 @@
 import { VaccineMock } from '../mocks/vaccine_mock'
 import * as vaccineEnums from '../../src/models/enums/vaccine_enum'
+import { VaccineModel } from '../../src/models/vaccine_model'
 
 describe('Models ==> vaccine', () => {
     test('instance vaccine', () => {
@@ -17,5 +18,11 @@ describe('Models ==> vaccine', () => {
         expect(vaccine.fabDate).toEqual(fabDate)
         expect(vaccine.dueDate).toBeInstanceOf(Date)
         expect(vaccine.dueDate).toEqual(dueDate)
+    })
+
+    test('instance from JSON', () => {
+        const vaccine: VaccineMock = VaccineMock.fromJSON(new VaccineMock())
+        expect(vaccine).toBeInstanceOf(VaccineModel)
+        expect(vaccine).toEqual(new VaccineMock())
     })
 })

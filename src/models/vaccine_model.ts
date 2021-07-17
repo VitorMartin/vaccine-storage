@@ -1,4 +1,4 @@
-import { ItemModel } from './item';
+import { ItemModel } from './item_model';
 
 export class VaccineModel extends ItemModel {
     brand : string;

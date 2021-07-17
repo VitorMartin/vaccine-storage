@@ -1,4 +1,4 @@
-import { VaccineModel } from '../../src/models/vaccine';
+import { VaccineModel } from '../../src/models/vaccine_model';
 import * as vaccineEnums from '../../src/models/enums/vaccine_enum'
 
 export class VaccineMock extends VaccineModel {

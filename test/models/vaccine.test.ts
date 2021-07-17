@@ -1,17 +1,19 @@
-import { VaccineModel } from '../../src/models/vaccine'
-import * as vaccineEnums from '../../src/models/enums/vaccine'
+import { VaccineMock } from '../mocks/vaccine_mock'
+import * as vaccineEnums from '../../src/models/enums/vaccine_enum'
 
 describe('Models ==> vaccine', () => {
     test('instance vaccine', () => {
-        const fabDate = new Date(2021, 6, 1)
-        const dueDate = new Date(fabDate.getFullYear(), fabDate.getMonth() + 12, fabDate.getDate())
-        const vaccine = new VaccineModel(vaccineEnums.brand.SINOVAC, vaccineEnums.name.BUTANVAC, vaccineEnums.mfr.BUTANTAN, 12, fabDate, dueDate)
+        const fabDate : Date = new VaccineMock().fabDate
+        const dueDate : Date = new VaccineMock().dueDate
+        const qty: number = new VaccineMock().qty
+        
+        const vaccine = new VaccineMock()
         
         expect(vaccine.brand).toBe(vaccineEnums.brand.SINOVAC)
         expect(vaccine.name).toBe(vaccineEnums.name.BUTANVAC)
         expect(vaccine.mfr).toBe(vaccineEnums.mfr.BUTANTAN)
-        expect(vaccine.qty).toBe(12)
-        expect(vaccine.fabDate).toBe(fabDate)
-        expect(vaccine.dueDate).toBe(dueDate)
+        expect(vaccine.qty).toBe(qty)
+        expect(vaccine.fabDate).toEqual(fabDate)
+        expect(vaccine.dueDate).toEqual(dueDate)
     })
 })

@@ -3,10 +3,15 @@ import { VaccineModel } from '../../../../src/models/vaccine_model'
 import { VaccineMock } from '../../../mocks/vaccine_mock'
 import  * as vaccineEnums from '../../../../src/models/enums/vaccine_enum'
 
+let storage : StorageVolatile
+
 describe('Controllers ==> volatile storage', () => {
+    beforeEach(() => {
+        storage = new StorageVolatile()
+    })
+
     describe('Get all data from storage', () => {
         test('Retrieve all data', () => {
-            const storage: StorageVolatile = new StorageVolatile()
             const items: VaccineMock[] = [
                 new VaccineMock('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
                 new VaccineMock('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
@@ -21,7 +26,6 @@ describe('Controllers ==> volatile storage', () => {
 
     describe('Insert item', () => {
         test('Create one item', () => {
-            const storage: StorageVolatile = new StorageVolatile()
             const item: VaccineMock = new VaccineMock()
     
             storage.insertItems([item])
@@ -31,7 +35,6 @@ describe('Controllers ==> volatile storage', () => {
         })
     
         test('Create several items', () => {
-            const storage: StorageVolatile = new StorageVolatile()
             const items: VaccineMock[] = [
                 new VaccineMock('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
                 new VaccineMock('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
@@ -46,7 +49,6 @@ describe('Controllers ==> volatile storage', () => {
 
     describe('Read item', () => {
         test('Read item by uuid', () => {
-            const storage: StorageVolatile = new StorageVolatile()
             const item: VaccineMock = new VaccineMock()
     
             storage.insertItems([item])
@@ -55,7 +57,6 @@ describe('Controllers ==> volatile storage', () => {
         })
 
         test('Read several items with same name', () => {
-            const storage: StorageVolatile = new StorageVolatile()
             const wantedItem1 = new VaccineMock('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa') // Same properties, but different uuid
             const wantedItem2 = new VaccineMock('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb') // Same properties, but different uuid
             const items: VaccineMock[] = [

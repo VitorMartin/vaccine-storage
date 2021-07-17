@@ -1,8 +1,8 @@
 import { ItemModel } from "../../src/models/item_model";
 
 export class ItemMock extends ItemModel {
-    constructor() {
+    constructor(uuid : string = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee') {
         super()
-        this.uuid = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+        this.uuid = uuid
     }
 }

@@ -4,6 +4,21 @@ import { VaccineMock } from '../../../mocks/vaccine_mock'
 import  * as vaccineEnums from '../../../../src/models/enums/vaccine_enum'
 
 describe('Controllers ==> volatile storage', () => {
+    describe('Get all data from storage', () => {
+        test('Retrieve all data', () => {
+            const storage: StorageVolatile = new StorageVolatile()
+            const items: VaccineMock[] = [
+                new VaccineMock('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
+                new VaccineMock('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+                new VaccineMock('cccccccc-cccc-cccc-cccc-cccccccccccc')
+            ]
+
+            storage.insertItems(items)
+
+            expect(storage.getAllData()).toStrictEqual(items)
+        })
+    })
+
     describe('Insert item', () => {
         test('Create one item', () => {
             const storage: StorageVolatile = new StorageVolatile()
@@ -24,12 +39,8 @@ describe('Controllers ==> volatile storage', () => {
             ]
 
             storage.insertItems(items)
-    
-            items.forEach((item, i) => {
-                // expect(storage.readItem('uuid', item.uuid)[0]).toBe(item)
-                expect(storage.getAllData()[i]).toBe(item)
-            });
 
+            expect(storage.getAllData()).toStrictEqual(items)
         })
     })
 

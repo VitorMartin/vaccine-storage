@@ -3,6 +3,7 @@ const router: Router = express.Router()
 
 import config from 'config';
 const appConfig : any = config.get('appConfig')
+import { routerEndpoint as endpoint } from '../models/enums/router_endpoints_enum';
 
 router.use(function timeLog (req : Request, res : Response, next : NextFunction) {
     console.log({
@@ -17,7 +18,7 @@ router.use(function timeLog (req : Request, res : Response, next : NextFunction)
     next()
 })
 
-router.get('/ping', (req: Request, res: Response) => {
+router.get(endpoint.PING, (req: Request, res: Response) => {
     res.status(200).send(appConfig)
 })
 

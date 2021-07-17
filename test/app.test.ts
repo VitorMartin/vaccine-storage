@@ -1,8 +1,5 @@
-import path from 'path'
-
 import config from 'config'
 const appConfig : any = config.get('appConfig')
-const basePath : string = `/${appConfig.name}/`
 
 import { app } from '../src/app'
 import request, { Response } from 'supertest'

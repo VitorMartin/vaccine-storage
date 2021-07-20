@@ -72,4 +72,17 @@ describe('Controllers ==> volatile storage', () => {
             expect(storage.readItem('name', wantedItem1.name)).toStrictEqual([wantedItem1, wantedItem2])
         })
     })
+
+    describe('Update item', () => {
+        test('Update qty by uuid', () => {
+            const item = new VaccineMock()
+            const newQty = 1
+            storage.insertItems([item])
+            
+            expect(storage.readItem('uuid', item.uuid)).toStrictEqual([item])
+            storage.updateItem('uuid', item.qty, newQty)
+            item.qty = newQty
+            expect(storage.readItem('uuid', item.uuid)).toStrictEqual([item])
+        })
+    })
 })

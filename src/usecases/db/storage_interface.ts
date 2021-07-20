@@ -5,5 +5,5 @@ export interface IStorage { // CRUD
     insertItems(items : ItemModel[]): boolean;
     readItem(attr : string, val: any): ItemModel[] | object[];
     updateItem(searchAttr : string, searchVal: any, newAttrVal: any): boolean;
-    // deleteItem(searchAttr : string, searchVal: string): boolean;
+    deleteItem(searchAttr : string, searchVal: any): boolean;
 }

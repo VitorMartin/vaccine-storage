@@ -85,4 +85,18 @@ describe('Controllers ==> volatile storage', () => {
             expect(storage.readItem('uuid', item.uuid)).toStrictEqual([item])
         })
     })
+
+    describe('Delete item', () => {
+        test('Delete item by uuid', () => {
+            const item0 = new VaccineMock('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
+            const item1 = new VaccineMock('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
+            const item2 = new VaccineMock('cccccccc-cccc-cccc-cccc-cccccccccccc')
+            const items = [item0, item1, item2]
+            storage.insertItems(items)
+
+            expect(storage.getAllData()).toStrictEqual(items)
+            storage.deleteItem('uuid', item1.uuid)
+            expect(storage.getAllData()).toStrictEqual([item0, item2])
+        })
+    })
 })

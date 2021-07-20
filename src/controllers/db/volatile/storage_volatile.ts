@@ -56,4 +56,23 @@ export class StorageVolatile implements IStorage {
         }
         return true
     }
+
+    deleteItem(searchAttr: string, searchVal: any): boolean {
+        try {
+            this.data.filter((item: ItemModel, i: number, data: ItemModel[]) => {
+                let vaccine = <VaccineModel>item
+
+                for (const property in vaccine) {
+                    if (property === searchAttr) {
+                        if (eval(`vaccine.${searchAttr}`) === searchVal) {
+                            data.splice(i, 1)
+                        }
+                    }
+                }
+            })
+        } catch (pass) {
+            return false
+        }
+        return true
+    }
 }

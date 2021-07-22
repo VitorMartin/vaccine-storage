@@ -1,19 +1,32 @@
 import express, { Application } from 'express';
-export const app : Application = express()
 
 import config from 'config';
-const appConfig : any = config.get('appConfig')
+const appConfig: any = config.get('appConfig')
 
 import { AppRouter } from "./routers/routes";
 import { routerEndpoint as endpoint } from './models/enums/router_endpoints_enum';
 import { StorageVolatile } from './repositories/volatile/storage_volatile';
+import { IStorage } from './interfaces/storage_interface';
 
-const appRouter = new AppRouter(new StorageVolatile())
+export class App {
+    private thisApp: Application
+    private thisRouter: AppRouter
 
-app.use(express.json())
+    constructor(port: number, storage: IStorage) {
+        this.thisApp = express()
+        this.thisRouter = new AppRouter(storage)
 
-app.use(endpoint.API_BASE_PATH, appRouter.router)
+        this.thisApp.use(express.json())
 
-app.get(endpoint.ROOT, (req, res) => {
-    res.status(200).send(appConfig)
-})
+        this.thisApp.use(endpoint.API_BASE_PATH, this.thisRouter.router)
+
+        this.thisApp.get(endpoint.ROOT, (req, res) => {
+            res.status(200).send(appConfig)
+        })
+
+        this.thisApp.listen(port, () => {
+            console.log(`MSS ${appConfig.name} is running:`);
+            console.log(appConfig)
+        })
+    }
+}

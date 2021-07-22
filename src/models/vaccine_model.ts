@@ -7,7 +7,7 @@ export class VaccineModel extends ItemModel {
     fabDate : Date; // Fabrication date
     dueDate : Date;
 
-    constructor(brand : string, name : string, mfr : string, qty : number = 1, fabDate : Date, dueDate : Date, uuid : string = '') {
+    constructor(brand : string, name : string, mfr : string, fabDate : Date, dueDate : Date, uuid : string = '', qty : number = 1) {
         super(uuid, qty);
         this.brand = brand
         this.name = name
@@ -21,10 +21,10 @@ export class VaccineModel extends ItemModel {
             json.brand,
             json.name,
             json.mfr,
-            json.qty,
             json.fabDate,
             json.dueDate,
-            json.uuid || ''
+            json.uuid || '',
+            json.qty || 1
         )
     }
 }

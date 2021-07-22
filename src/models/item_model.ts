@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
-export class ItemModel {
+export default class ItemModel {
     uuid: string;
     qty: number;
     

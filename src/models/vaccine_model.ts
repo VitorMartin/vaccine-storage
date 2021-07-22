@@ -1,6 +1,6 @@
-import { ItemModel } from './item_model';
+import ItemModel from './item_model';
 
-export class VaccineModel extends ItemModel {
+export default class VaccineModel extends ItemModel {
     brand : string;
     name : string;
     mfr : string; // Manufacturer

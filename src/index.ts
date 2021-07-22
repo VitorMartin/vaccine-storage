@@ -1,7 +1,7 @@
-import { App } from "./app";
+import App from "./app";
 
 import config from 'config';
-import { StorageVolatile } from "./repositories/volatile/storage_volatile";
+import StorageVolatile from "./repositories/volatile/storage_volatile";
 const appConfig : any = config.get('appConfig')
 
 const main = async () => {

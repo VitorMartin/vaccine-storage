@@ -3,12 +3,12 @@ import express, { Router, Request, Response, NextFunction } from 'express';
 import config from 'config';
 const appConfig : any = config.get('appConfig')
 
-import { IStorage } from '../interfaces/storage_interface';
-import { routerEndpoint as endpoint } from '../models/enums/router_endpoints_enum';
-import { VaccineModel } from '../models/vaccine_model';
-import { AddVacs } from '../usecases/addVacs';
+import IStorage from '../interfaces/storage_interface';
+import { routerEndpoints as endpoints } from '../models/enums/router_endpoints_enum';
+import VaccineModel from '../models/vaccine_model';
+import AddVacs from '../usecases/addVacs';
 
-export class AppRouter {
+export default class AppRouter {
     private storage: IStorage;
     router: Router;
     
@@ -29,11 +29,11 @@ export class AppRouter {
             next()
         })
 
-        this.router.get(endpoint.PING, (req: Request, res: Response) => {
+        this.router.get(endpoints.PING, (req: Request, res: Response) => {
             res.status(200).send(appConfig)
         })
 
-        this.router.post(endpoint.VACCINE, (req: Request, res: Response) => {
+        this.router.post(endpoints.VACCINE, (req: Request, res: Response) => {
             // Validate request ==> validate HTTP Protocol
 
             const addVacs = new AddVacs(this.storage)
@@ -53,11 +53,11 @@ export class AppRouter {
             res.status(201).send()
         })
 
-        this.router.get(endpoint.ALL_VACCINES, (req: Request, res: Response) => {
+        this.router.get(endpoints.ALL_VACCINES, (req: Request, res: Response) => {
             res.send(this.storage.getAllVacs())
         })
 
-        this.router.get(endpoint.VACCINE, (req: Request, res: Response) => {
+        this.router.get(endpoints.VACCINE, (req: Request, res: Response) => {
             let vac: VaccineModel | {} = {}
             try {
                 vac = this.storage.countVac(req.body.vaccine.name)

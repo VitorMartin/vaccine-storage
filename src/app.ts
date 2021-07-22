@@ -3,12 +3,11 @@ import express, { Application } from 'express';
 import config from 'config';
 const appConfig: any = config.get('appConfig')
 
-import { AppRouter } from "./routers/routes";
-import { routerEndpoint as endpoint } from './models/enums/router_endpoints_enum';
-import { StorageVolatile } from './repositories/volatile/storage_volatile';
-import { IStorage } from './interfaces/storage_interface';
+import AppRouter from "./routers/routes";
+import { routerEndpoints as endpoints } from './models/enums/router_endpoints_enum';
+import IStorage from './interfaces/storage_interface';
 
-export class App {
+export default class App {
     private thisApp: Application
     private thisRouter: AppRouter
 
@@ -18,9 +17,9 @@ export class App {
 
         this.thisApp.use(express.json())
 
-        this.thisApp.use(endpoint.API_BASE_PATH, this.thisRouter.router)
+        this.thisApp.use(endpoints.API_BASE_PATH, this.thisRouter.router)
 
-        this.thisApp.get(endpoint.ROOT, (req, res) => {
+        this.thisApp.get(endpoints.ROOT, (req, res) => {
             res.status(200).send(appConfig)
         })
 

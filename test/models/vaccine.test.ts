@@ -13,7 +13,6 @@ describe('Models ==> vaccine', () => {
         expect(vaccine.brand).toBe(vaccineEnums.brand.SINOVAC)
         expect(vaccine.name).toBe(vaccineEnums.name.BUTANVAC)
         expect(vaccine.mfr).toBe(vaccineEnums.mfr.BUTANTAN)
-        expect(vaccine.qty).toBe(qty)
         expect(vaccine.fabDate).toBeInstanceOf(Date)
         expect(vaccine.fabDate).toEqual(fabDate)
         expect(vaccine.dueDate).toBeInstanceOf(Date)

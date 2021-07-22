@@ -1,4 +1,4 @@
-import { ItemModel } from '../../src/models/item_model'
+import ItemModel from '../../src/models/item_model'
 
 describe('Models ==> item', () => {
     test('instance item without uuid', () => {

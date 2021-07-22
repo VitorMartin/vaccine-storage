@@ -8,7 +8,8 @@ import { routerEndpoints as endpoints } from './models/enums/router_endpoints_en
 import IStorage from './interfaces/storage_interface';
 
 export default class App {
-    private thisApp: Application
+    thisApp: Application
+    server: any
     private thisRouter: AppRouter
 
     constructor(port: number, storage: IStorage) {
@@ -23,7 +24,7 @@ export default class App {
             res.status(200).send(appConfig)
         })
 
-        this.thisApp.listen(port, () => {
+        this.server = this.thisApp.listen(port, () => {
             console.log(`MSS ${appConfig.name} is running:`);
             console.log(appConfig)
         })

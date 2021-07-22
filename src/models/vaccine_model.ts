@@ -16,6 +16,15 @@ export class VaccineModel extends ItemModel {
         this.dueDate = dueDate
     }
 
+    compatibleVacs(vacToCompare: VaccineModel) {
+        return (
+            this.brand === vacToCompare.brand &&
+            this.name === vacToCompare.name &&
+            this.mfr === vacToCompare.mfr &&
+            this.dueDate === vacToCompare.dueDate
+        )
+    }
+
     static fromJSON(json: any) {
         return new VaccineModel(
             json.brand,

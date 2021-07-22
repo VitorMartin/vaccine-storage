@@ -5,8 +5,10 @@ import config from 'config';
 const appConfig : any = config.get('appConfig')
 import { routerEndpoint as endpoint } from '../models/enums/router_endpoints_enum';
 import { ItemModel } from '../models/item_model';
-import { StorageVolatile } from '../controllers/db/volatile/storage_volatile';
+import { StorageVolatile } from '../repositories/volatile/storage_volatile';
 import { VaccineModel } from '../models/vaccine_model';
+import { AddVacs } from '../usecases/addVacs';
+
 
 const storage = new StorageVolatile()
 
@@ -27,15 +29,19 @@ router.get(endpoint.PING, (req: Request, res: Response) => {
     res.status(200).send(appConfig)
 })
 
-router.post(endpoint.ITEM, (req: Request, res: Response) => {
-    const items: ItemModel[] = []
-    for (let i = 0; i < req.body.items.length; i++) {
-        const itemJSON: JSON = req.body.items[i];
-        const vaccine = VaccineModel.fromJSON(itemJSON)
-        items.push(vaccine)
+router.post(endpoint.VACCINE, (req: Request, res: Response) => {
+    // Validate request ==> validate HTTP Protocol
+
+    const addVacs = new AddVacs(storage)
+    const vacs: VaccineModel[] = []
+    for (let i = 0; i < req.body.vaccines.length; i++) {
+        const vacJSON: JSON = req.body.vaccines[i];
+        const vaccine = VaccineModel.fromJSON(vacJSON)
+        vacs.push(vaccine)
     }
     try {
-        storage.insertItems(items)
+        // storage.insertItems(items)
+        addVacs.call(vacs)
     }
     catch (pass) {
         res.status(400).send()
@@ -43,20 +49,19 @@ router.post(endpoint.ITEM, (req: Request, res: Response) => {
     res.status(201).send()
 })
 
-router.get(endpoint.ALL_ITEMS, (req: Request, res: Response) => {
-    res.send(storage.getAllData())
+router.get(endpoint.ALL_VACCINES, (req: Request, res: Response) => {
+    res.send(storage.getAllVacs())
 })
 
-router.get(endpoint.ITEM, (req: Request, res: Response) => {
-    let items: ItemModel[] | object[]
+router.get(endpoint.VACCINE, (req: Request, res: Response) => {
+    let vac: VaccineModel | {} = {}
     try {
-        items = storage.readItem(req.body.attr, req.body.val)
+        vac = storage.countVac(req.body.vaccine.name)
     }
     catch (pass) {
-        items = []
-        res.status(400).send(items)
+        res.status(400).send(vac)
     }
-    res.send(items)
+    res.send(vac)
 })
 
 export = router

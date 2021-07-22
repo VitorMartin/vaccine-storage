@@ -6,6 +6,6 @@ export class feEndpoint { // FRONTEND ENDPOINTS. Class, but acts like enum: cann
     static SERVER_ROOT: string = routerEndpoint.ROOT
     static API_BASE_PATH: string = routerEndpoint.API_BASE_PATH
     static PING : string = `${routerEndpoint.API_BASE_PATH}/${routerEndpoint.PING}`
-    static ITEM : string = `${routerEndpoint.API_BASE_PATH}/${routerEndpoint.ITEM}`
-    static ALL_ITEMS : string = `${routerEndpoint.API_BASE_PATH}/${routerEndpoint.ALL_ITEMS}`
+    static VACCINE : string = `${routerEndpoint.API_BASE_PATH}/${routerEndpoint.VACCINE}`
+    static ALL_VACCINES : string = `${routerEndpoint.API_BASE_PATH}/${routerEndpoint.ALL_VACCINES}`
 }

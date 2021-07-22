@@ -17,41 +17,43 @@ describe(`Router ==> endpoints`, () => {
         })
     })
 
-    describe('Insert items', () => {
-        test('add one item', async () => {
-            const item = new VaccineMock()
+    describe.skip('Insert vacines', () => {
+        test('add one vaccine', async () => {
+            const vaccine = new VaccineMock()
 
             await request(app)
-                .post(endpoint.ITEM)
-                .send({ 'items': [item] })
+                .post(endpoint.VACCINE)
+                .send({ 'vaccines': [vaccine] })
             
             const res: Response = await request(app)
-                .get(endpoint.ITEM)
+                .get(endpoint.VACCINE)
                 .send({
-                    'attr': 'uuid',
-                    'val': item.uuid
+                    "vaccine": {
+                        "name": vaccine.name
+                    }
                 })
             
-            expect(res.body[0].uuid).toEqual(item.uuid)
+            expect(res.body.vaccines[0].uuid).toEqual(vaccine.uuid)
         })
     })
 
-    describe('Read items', () => {
-        test('read one item by uuid', async () => {
-            const item = new VaccineMock()
+    describe.skip('Count vaccines', () => {
+        test('Count vaccine by name', async () => {
+            const vaccine = new VaccineMock()
 
             await request(app)
-                .post(endpoint.ITEM)
-                .send({ 'items': [item] })
+                .post(endpoint.VACCINE)
+                .send({ 'vaccines': [vaccine] })
             
             const res: Response = await request(app)
-                .get(endpoint.ITEM)
+                .get(endpoint.VACCINE)
                 .send({
-                    'attr': 'uuid',
-                    'val': item.uuid
+                    "vaccine": {
+                        "name": vaccine.name
+                    }
                 })
             
-            expect(res.body[0].uuid).toEqual(item.uuid)
+            expect(res.body[0].uuid).toEqual(vaccine.uuid)
         })
     })
 });

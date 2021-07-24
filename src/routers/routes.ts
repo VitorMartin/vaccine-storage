@@ -6,7 +6,8 @@ const appConfig : any = config.get('appConfig')
 import IStorage from '../interfaces/storage_interface';
 import { routerEndpoints as endpoints } from '../models/enums/router_endpoints_enum';
 import VaccineModel from '../models/vaccine_model';
-import AddVacs from '../usecases/addVacs';
+import AddVacs from '../usecases/add_vacs';
+import CountVacs from '../usecases/count_vacs';
 
 export default class AppRouter {
     private storage: IStorage;
@@ -58,14 +59,15 @@ export default class AppRouter {
         })
 
         this.router.get(endpoints.VACCINE, (req: Request, res: Response) => {
-            let vac: VaccineModel | {} = {}
+            const countVacs = new CountVacs(storage)
+            let vacs: VaccineModel[] | [] = []
             try {
-                vac = this.storage.countVac(req.body.vaccine.name)
+                vacs = countVacs.call(req.body.vaccine)
             }
             catch (pass) {
-                res.status(400).send(vac)
+                res.status(400).send({"vaccines": vacs})
             }
-            res.send(vac)
+            res.send({"vaccines": vacs})
         })
     }
 }

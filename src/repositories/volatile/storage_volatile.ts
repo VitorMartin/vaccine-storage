@@ -48,8 +48,23 @@ export default class StorageVolatile implements IStorage {
         return true
     }
 
-    countVac(vacName: string): VaccineModel {
-        throw new Error("Method not implemented.");
+    countVacs(paramVac: VaccineModel): VaccineModel[] {
+        const countedVacs : VaccineModel[] = []
+        try {
+            this.storage.forEach(storageVac => {
+                if (
+                    storageVac.brand === paramVac.brand &&
+                    storageVac.name === paramVac.name &&
+                    storageVac.mfr === paramVac.mfr
+                ) {
+                    countedVacs.push(storageVac)
+                }
+            })
+        }
+        catch (pass) { }
+        finally {
+            return countedVacs
+        }
     }
 
     getAllVacs(): VaccineModel[] {

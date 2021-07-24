@@ -7,9 +7,10 @@ import { feEndpoints as endpoint } from '../../src/models/enums/fe_endpoints_enu
 import IStorage from '../../src/interfaces/storage_interface'
 import StorageVolatile from '../../src/repositories/volatile/storage_volatile'
 import VaccineMock from '../mocks/vaccine_mock'
+import VaccineModel from '../../src/models/vaccine_model'
 
 let port: number
-let storage: IStorage
+let storage: any
 let app: App
 
 describe(`Router ==> endpoints`, () => {
@@ -52,9 +53,9 @@ describe(`Router ==> endpoints`, () => {
         })
     })
 
-    describe.skip('Count vaccines', () => {
-        test('Count vaccine by name', async () => {
-            const vaccine = new VaccineMock()
+    describe.only('Count vaccines', () => {
+        test('Count vaccine', async () => {
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
 
             await request(app.thisApp)
                 .post(endpoint.VACCINE)
@@ -62,13 +63,10 @@ describe(`Router ==> endpoints`, () => {
             
             const res: Response = await request(app.thisApp)
                 .get(endpoint.VACCINE)
-                .send({
-                    "vaccine": {
-                        "name": vaccine.name
-                    }
-                })
-            
-            expect(res.body[0].uuid).toEqual(vaccine.uuid)
+                .send({ "vaccine": vaccine })
+
+            expect(VaccineModel.fromJSON(res.body.vaccines[0])).toEqual(vaccine)
+            expect(res.body.vaccines[0].qty).toBe(vaccine.qty)
         })
     })
 });

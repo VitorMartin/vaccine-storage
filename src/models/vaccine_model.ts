@@ -30,8 +30,8 @@ export default class VaccineModel extends ItemModel {
             json.brand,
             json.name,
             json.mfr,
-            json.fabDate,
-            json.dueDate,
+            new Date(json.fabDate),
+            new Date(json.dueDate),
             json.uuid || '',
             json.qty || 1
         )

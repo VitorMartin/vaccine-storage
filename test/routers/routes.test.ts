@@ -33,7 +33,7 @@ describe(`Router ==> endpoints`, () => {
         })
     })
 
-    describe.skip('Insert vacines', () => {
+    describe('Insert vacines', () => {
         test('add one vaccine', async () => {
             const vaccine = new VaccineMock()
 
@@ -43,17 +43,13 @@ describe(`Router ==> endpoints`, () => {
             
             const res: Response = await request(app.thisApp)
                 .get(endpoint.VACCINE)
-                .send({
-                    "vaccine": {
-                        "name": vaccine.name
-                    }
-                })
+                .send({ "vaccine": vaccine })
             
             expect(res.body.vaccines[0].uuid).toEqual(vaccine.uuid)
         })
     })
 
-    describe.only('Count vaccines', () => {
+    describe('Count vaccines', () => {
         test('Count vaccine', async () => {
             const vaccine = VaccineModel.fromJSON(new VaccineMock())
 

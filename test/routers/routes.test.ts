@@ -7,9 +7,10 @@ import { feEndpoints as endpoint } from '../../src/models/enums/fe_endpoints_enu
 import StorageVolatile from '../../src/repositories/volatile/storage_volatile'
 import VaccineMock from '../mocks/vaccine_mock'
 import VaccineModel from '../../src/models/vaccine_model'
+import IStorage from '../../src/interfaces/storage_interface'
 
 let port: number
-let storage: any
+let storage: IStorage
 let app: App
 
 describe(`Router ==> endpoints`, () => {
@@ -34,17 +35,13 @@ describe(`Router ==> endpoints`, () => {
 
     describe('Insert vacines', () => {
         test('add one vaccine', async () => {
-            const vaccine = new VaccineMock()
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
 
             await request(app.thisApp)
                 .post(endpoint.VACCINE)
                 .send({ 'vaccines': [vaccine] })
             
-            const res: Response = await request(app.thisApp)
-                .get(endpoint.VACCINE)
-                .send({ "vaccine": vaccine })
-            
-            expect(res.body.vaccines[0].uuid).toEqual(vaccine.uuid)
+            expect(storage.getAllVacs()).toStrictEqual([vaccine])
         })
     })
 
@@ -52,15 +49,13 @@ describe(`Router ==> endpoints`, () => {
         test('Count vaccine', async () => {
             const vaccine = VaccineModel.fromJSON(new VaccineMock())
 
-            await request(app.thisApp)
-                .post(endpoint.VACCINE)
-                .send({ 'vaccines': [vaccine] })
+            storage.addVacs([vaccine])
             
             const res: Response = await request(app.thisApp)
                 .get(endpoint.VACCINE)
                 .send({ "vaccine": vaccine })
 
-            expect(VaccineModel.fromJSON(res.body.vaccines[0])).toEqual(vaccine)
+            expect(VaccineModel.fromJSON(res.body.vaccines[0])).toStrictEqual(vaccine)
             expect(res.body.vaccines[0].qty).toBe(vaccine.qty)
         })
     })

@@ -18,5 +18,6 @@ export enum name {
 export enum mfr {
     PFIZER = 'Pfizer-BioNTech',
     JOHNSON = 'Johnson & Johnson’s',
+    SINOVAC = 'Sinovac',
     BUTANTAN = 'Butantan'
 }

@@ -21,7 +21,7 @@ export default class VaccineModel extends ItemModel {
             this.brand === vacToCompare.brand &&
             this.name === vacToCompare.name &&
             this.mfr === vacToCompare.mfr &&
-            this.dueDate === vacToCompare.dueDate
+            this.dueDate.getTime() === vacToCompare.dueDate.getTime()
         )
     }
 

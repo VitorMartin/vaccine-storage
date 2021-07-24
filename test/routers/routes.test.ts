@@ -45,6 +45,18 @@ describe(`Router ==> endpoints`, () => {
         })
     })
 
+    describe('Get all vaccines', () => {
+        test('Get all data from storage', async () => {
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
+            storage.addVacs([vaccine])
+
+            const res = await request(app.thisApp)
+                .get(endpoint.ALL_VACCINES)
+            
+            expect(VaccineModel.fromJSON(res.body[0])).toStrictEqual(vaccine)
+        })
+    })
+
     describe('Count vaccines', () => {
         test('Count vaccine', async () => {
             const vaccine = VaccineModel.fromJSON(new VaccineMock())

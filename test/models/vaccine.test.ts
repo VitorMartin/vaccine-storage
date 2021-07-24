@@ -1,6 +1,6 @@
-import { VaccineMock } from '../mocks/vaccine_mock'
+import VaccineMock from '../mocks/vaccine_mock'
 import * as vaccineEnums from '../../src/models/enums/vaccine_enum'
-import { VaccineModel } from '../../src/models/vaccine_model'
+import VaccineModel from '../../src/models/vaccine_model'
 
 describe('Models ==> vaccine', () => {
     test('instance vaccine', () => {
@@ -13,7 +13,6 @@ describe('Models ==> vaccine', () => {
         expect(vaccine.brand).toBe(vaccineEnums.brand.SINOVAC)
         expect(vaccine.name).toBe(vaccineEnums.name.BUTANVAC)
         expect(vaccine.mfr).toBe(vaccineEnums.mfr.BUTANTAN)
-        expect(vaccine.qty).toBe(qty)
         expect(vaccine.fabDate).toBeInstanceOf(Date)
         expect(vaccine.fabDate).toEqual(fabDate)
         expect(vaccine.dueDate).toBeInstanceOf(Date)

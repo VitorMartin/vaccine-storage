@@ -1,57 +1,74 @@
 import config from 'config'
 const appConfig : any = config.get('appConfig')
 
-import { app } from '../../src/app'
+import App from '../../src/app'
 import request, { Response } from 'supertest'
-import { feEndpoint as endpoint } from '../../src/models/enums/fe_endpoints_enum'
+import { feEndpoints as endpoint } from '../../src/models/enums/fe_endpoints_enum'
+import StorageVolatile from '../../src/repositories/volatile/storage_volatile'
+import VaccineMock from '../mocks/vaccine_mock'
+import VaccineModel from '../../src/models/vaccine_model'
+import IStorage from '../../src/interfaces/storage_interface'
 
-import { VaccineMock } from '../mocks/vaccine_mock'
+let port: number
+let storage: IStorage
+let app: App
 
 describe(`Router ==> endpoints`, () => {
+    beforeEach(() => {
+        port = appConfig.port || 8080
+        storage = new StorageVolatile()
+        app = new App(0, storage)
+    })
+
+    afterEach(() => {
+        app.server.close()
+    })
+
     describe('Ping', () => {
-        test('api is pinging', async () => {
-            const res : Response = await request(app).get(endpoint.PING)
+        test('API is pinging', async () => {
+            const res : Response = await request(app.thisApp).get(endpoint.PING)
 
             expect(res.status).toBe(200)
             expect(res.body).toEqual(appConfig)
         })
     })
 
-    describe('Insert items', () => {
-        test('add one item', async () => {
-            const item = new VaccineMock()
+    describe('Insert vacines', () => {
+        test('add one vaccine', async () => {
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
 
-            await request(app)
-                .post(endpoint.ITEM)
-                .send({ 'items': [item] })
+            await request(app.thisApp)
+                .post(endpoint.VACCINE)
+                .send({ 'vaccines': [vaccine] })
             
-            const res: Response = await request(app)
-                .get(endpoint.ITEM)
-                .send({
-                    'attr': 'uuid',
-                    'val': item.uuid
-                })
-            
-            expect(res.body[0].uuid).toEqual(item.uuid)
+            expect(storage.getAllVacs()).toStrictEqual([vaccine])
         })
     })
 
-    describe('Read items', () => {
-        test('read one item by uuid', async () => {
-            const item = new VaccineMock()
+    describe('Get all vaccines', () => {
+        test('Get all data from storage', async () => {
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
+            storage.addVacs([vaccine])
 
-            await request(app)
-                .post(endpoint.ITEM)
-                .send({ 'items': [item] })
+            const res = await request(app.thisApp)
+                .get(endpoint.ALL_VACCINES)
             
-            const res: Response = await request(app)
-                .get(endpoint.ITEM)
-                .send({
-                    'attr': 'uuid',
-                    'val': item.uuid
-                })
+            expect(VaccineModel.fromJSON(res.body[0])).toStrictEqual(vaccine)
+        })
+    })
+
+    describe('Count vaccines', () => {
+        test('Count vaccine', async () => {
+            const vaccine = VaccineModel.fromJSON(new VaccineMock())
+
+            storage.addVacs([vaccine])
             
-            expect(res.body[0].uuid).toEqual(item.uuid)
+            const res: Response = await request(app.thisApp)
+                .get(endpoint.VACCINE)
+                .send({ "vaccine": vaccine })
+
+            expect(VaccineModel.fromJSON(res.body.vaccines[0])).toStrictEqual(vaccine)
+            expect(res.body.vaccines[0].qty).toBe(vaccine.qty)
         })
     })
 });

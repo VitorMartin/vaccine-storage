@@ -3,7 +3,7 @@
         "name": "storage",
         "protocol": "http",
         "host": "0.0.0.0",
-        "port": 1002,
+        "port": 0,
         "apiVersion": "v1"
     }
 }

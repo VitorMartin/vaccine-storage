@@ -1,21 +1,28 @@
-import { ItemModel } from './item_model';
+import ItemModel from './item_model';
 
-export class VaccineModel extends ItemModel {
+export default class VaccineModel extends ItemModel {
     brand : string;
     name : string;
     mfr : string; // Manufacturer
-    qty : number;
     fabDate : Date; // Fabrication date
     dueDate : Date;
 
-    constructor(brand : string, name : string, mfr : string, qty : number, fabDate : Date, dueDate : Date, uuid : string = '') {
-        super(uuid);
+    constructor(brand : string, name : string, mfr : string, fabDate : Date, dueDate : Date, uuid : string = '', qty : number = 1) {
+        super(uuid, qty);
         this.brand = brand
         this.name = name
         this.mfr = mfr
-        this.qty = qty
         this.fabDate = fabDate
         this.dueDate = dueDate
+    }
+
+    compatibleVacs(vacToCompare: VaccineModel) {
+        return (
+            this.brand === vacToCompare.brand &&
+            this.name === vacToCompare.name &&
+            this.mfr === vacToCompare.mfr &&
+            this.dueDate.getTime() === vacToCompare.dueDate.getTime()
+        )
     }
 
     static fromJSON(json: any) {
@@ -23,10 +30,10 @@ export class VaccineModel extends ItemModel {
             json.brand,
             json.name,
             json.mfr,
-            json.qty,
-            json.fabDate,
-            json.dueDate,
-            json.uuid || ''
+            new Date(json.fabDate),
+            new Date(json.dueDate),
+            json.uuid || '',
+            json.qty || 1
         )
     }
 }

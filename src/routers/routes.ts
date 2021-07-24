@@ -1,62 +1,75 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
-const router: Router = express.Router()
 
 import config from 'config';
 const appConfig : any = config.get('appConfig')
-import { routerEndpoint as endpoint } from '../models/enums/router_endpoints_enum';
-import { ItemModel } from '../models/item_model';
-import { StorageVolatile } from '../controllers/db/volatile/storage_volatile';
-import { VaccineModel } from '../models/vaccine_model';
 
-const storage = new StorageVolatile()
+import IStorage from '../interfaces/storage_interface';
+import { routerEndpoints as endpoints } from '../models/enums/router_endpoints_enum';
+import VaccineModel from '../models/vaccine_model';
+import AddVacs from '../usecases/add_vacs';
+import GetAllVacs from '../usecases/get_all_vacs';
+import CountVacs from '../usecases/count_vacs';
 
-router.use(function timeLog (req : Request, res : Response, next : NextFunction) {
-    console.log({
-        'datetime': new Date().toISOString(),
-        'req': {
-            'body': req.body,
-            'method': req.method,
-            'originalUrl': req.originalUrl
-        }
-    })
+export default class AppRouter {
+    private storage: IStorage;
+    router: Router;
+    
+    constructor(storage: IStorage) {
+        this.router = express.Router()
+        this.storage = storage
 
-    next()
-})
+        this.router.use(function timeLog(req: Request, res: Response, next: NextFunction) {
+            console.log({
+                'datetime': new Date().toISOString(),
+                'req': {
+                    'body': req.body,
+                    'method': req.method,
+                    'originalUrl': req.originalUrl
+                }
+            })
 
-router.get(endpoint.PING, (req: Request, res: Response) => {
-    res.status(200).send(appConfig)
-})
+            next()
+        })
 
-router.post(endpoint.ITEM, (req: Request, res: Response) => {
-    const items: ItemModel[] = []
-    for (let i = 0; i < req.body.items.length; i++) {
-        const itemJSON: JSON = req.body.items[i];
-        const vaccine = VaccineModel.fromJSON(itemJSON)
-        items.push(vaccine)
+        this.router.get(endpoints.PING, (req: Request, res: Response) => {
+            res.status(200).send(appConfig)
+        })
+
+        this.router.post(endpoints.VACCINE, (req: Request, res: Response) => {
+            // Validate request ==> validate HTTP Protocol
+
+            const addVacs = new AddVacs(this.storage)
+            const vacs: VaccineModel[] = []
+            for (let i = 0; i < req.body.vaccines.length; i++) {
+                const vacJSON: JSON = req.body.vaccines[i];
+                const vaccine = VaccineModel.fromJSON(vacJSON)
+                vacs.push(vaccine)
+            }
+            try {
+                // storage.insertItems(items)
+                addVacs.call(vacs)
+            }
+            catch (pass) {
+                res.status(400).send()
+            }
+            res.status(201).send()
+        })
+
+        this.router.get(endpoints.ALL_VACCINES, (req: Request, res: Response) => {
+            const getAllVacs = new GetAllVacs(storage)
+            res.send(getAllVacs.call())
+        })
+
+        this.router.get(endpoints.VACCINE, (req: Request, res: Response) => {
+            const countVacs = new CountVacs(storage)
+            let vacs: VaccineModel[] | [] = []
+            try {
+                vacs = countVacs.call(req.body.vaccine)
+            }
+            catch (pass) {
+                res.status(400).send({"vaccines": vacs})
+            }
+            res.send({"vaccines": vacs})
+        })
     }
-    try {
-        storage.insertItems(items)
-    }
-    catch (pass) {
-        res.status(400).send()
-    }
-    res.status(201).send()
-})
-
-router.get(endpoint.ALL_ITEMS, (req: Request, res: Response) => {
-    res.send(storage.getAllData())
-})
-
-router.get(endpoint.ITEM, (req: Request, res: Response) => {
-    let items: ItemModel[] | object[]
-    try {
-        items = storage.readItem(req.body.attr, req.body.val)
-    }
-    catch (pass) {
-        items = []
-        res.status(400).send(items)
-    }
-    res.send(items)
-})
-
-export = router
+}

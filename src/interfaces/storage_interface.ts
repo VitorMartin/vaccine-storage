@@ -1,4 +1,3 @@
-import ItemModel from "../models/item_model";
 import VaccineModel from "../models/vaccine_model";
 
 export default interface IStorage {

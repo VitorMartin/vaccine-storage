@@ -4,7 +4,6 @@ const appConfig : any = config.get('appConfig')
 import App from '../../src/app'
 import request, { Response } from 'supertest'
 import { feEndpoints as endpoint } from '../../src/models/enums/fe_endpoints_enum'
-import IStorage from '../../src/interfaces/storage_interface'
 import StorageVolatile from '../../src/repositories/volatile/storage_volatile'
 import VaccineMock from '../mocks/vaccine_mock'
 import VaccineModel from '../../src/models/vaccine_model'

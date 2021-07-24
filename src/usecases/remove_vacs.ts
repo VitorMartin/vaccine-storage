@@ -1,7 +1,7 @@
 import IStorage from "../interfaces/storage_interface";
 import VaccineModel from "../models/vaccine_model";
 
-export default class removeVacs {
+export default class RemoveVacs {
     private storage: IStorage
     
     constructor(storage: IStorage) {

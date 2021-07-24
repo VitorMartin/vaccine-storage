@@ -52,6 +52,9 @@ describe('Usecases ==> remove vaccines', () => {
 
     test('Remove vaccine that does not exist', () => {
         expect(removeVacs.call([vacToRemove3])).toBe(true)
-        expect(storage.getAllVacs()).toStrictEqual(vacsInStorage)
+        expect(storage.getAllVacs()[0].qty).toBe(10)
+        expect(storage.getAllVacs()[1].qty).toBe(10)
+        expect(storage.getAllVacs()[2].qty).toBe(10)
+        expect(storage.getAllVacs()[3].qty).toBe(10)
     })
 })

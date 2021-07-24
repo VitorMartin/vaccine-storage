@@ -7,6 +7,7 @@ import IStorage from '../interfaces/storage_interface';
 import { routerEndpoints as endpoints } from '../models/enums/router_endpoints_enum';
 import VaccineModel from '../models/vaccine_model';
 import AddVacs from '../usecases/add_vacs';
+import GetAllVacs from '../usecases/get_all_vacs';
 import CountVacs from '../usecases/count_vacs';
 
 export default class AppRouter {
@@ -55,7 +56,8 @@ export default class AppRouter {
         })
 
         this.router.get(endpoints.ALL_VACCINES, (req: Request, res: Response) => {
-            res.send(this.storage.getAllVacs())
+            const getAllVacs = new GetAllVacs(storage)
+            res.send(getAllVacs.call())
         })
 
         this.router.get(endpoints.VACCINE, (req: Request, res: Response) => {
